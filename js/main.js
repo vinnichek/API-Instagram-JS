@@ -3,7 +3,7 @@ jQuery(function($){
     metka=["hi","hello"];
 var i=0;
  
-let getInfo = () => {
+let getPosts = () => {
     $.ajax({
         url: 'https://api.instagram.com/v1/tags/' + metka[i]+'/media/recent?access_token=' + tok,
         dataType: 'jsonp',
@@ -15,16 +15,18 @@ let getInfo = () => {
             $('.updates').empty().append( template(result)  );
         },
         error: function(xhr, ajaxOptions,thrownError){
-              alert('status:'+xhr.status+' '+thrownError);
-		  $('#loading').hide();
+            var error=document.createElement('div');
+            error.innerHTML='status:'+xhr.status+' '+thrownError;
+            document.body.appendChild(error);
+		    $('#loading').hide();
         }
     });
-i++;
-if(i==metka.length)
-i=0;
-}
+    i++;
+    if(i==metka.length)
+        i=0;
+    }
     $(document).ready(function () {
-        getInfo();
-        setInterval(getInfo, 100000);
+        getPosts();
+        setInterval(getPosts, 100000);
     });;
 });
